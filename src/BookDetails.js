@@ -3,16 +3,16 @@ import React, { Component } from 'react';
 class BookDetails extends Component {
   render() {
     const bookDetails = this.props.books;
-    console.log(bookDetails);
+
     return(
         <ol className="books-grid">
         {bookDetails.map((book, index) => (
           <li key={index}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: book.imageDetails.width, 
-                                                     height: book.imageDetails.height, 
-                                                     backgroundImage: `url(${book.imageDetails.thumb_url})` 
+                <div className="book-cover" style={{ width: 128, 
+                                                     height: 193, 
+                                                     backgroundImage: `url(${book.imageLinks.thumbnail})` 
                                                    }}>
                 </div>
                 <div className="book-shelf-changer">
