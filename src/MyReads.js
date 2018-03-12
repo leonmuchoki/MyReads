@@ -17,6 +17,10 @@ class MyReads extends Component {
   }
   
   componentDidMount() {
+    this.getAllBooks();
+  }
+  
+  getAllBooks() {
     BooksAPI.getAll().then((books) => {
       this.setState({
         all_books: books,
@@ -25,6 +29,19 @@ class MyReads extends Component {
         read: books.filter((c) => ( c.shelf === "read"))
       });
     });
+  }
+  changeBookShelf = (book, shelf) => {
+    let res;
+    if (shelf !== "none")
+    {
+        BooksAPI.update(book, shelf).then((response) => {
+          res = response;  
+          //console.log(response);
+          this.getAllBooks(); 
+        });
+        
+    }
+
   }
 
   render() {
@@ -35,9 +52,9 @@ class MyReads extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <CurrentlyReading books={this.state.curr_reading} />
-            <WantToRead books={this.state.want_to_read} />   
-            <Read books={this.state.read} />     
+            <CurrentlyReading books={this.state.curr_reading} onChangeBookShelf={this.changeBookShelf} />
+            <WantToRead books={this.state.want_to_read} onChangeBookShelf={this.changeBookShelf} />   
+            <Read books={this.state.read} onChangeBookShelf={this.changeBookShelf} />     
           </div>
         </div>
       </div>    

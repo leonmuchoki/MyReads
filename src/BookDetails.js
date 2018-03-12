@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class BookDetails extends Component {
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    onChangeBookShelf: PropTypes.func.isRequired
+  }
+  
   render() {
-    const bookDetails = this.props.books;
+    const books = this.props.books
+    const onChangeBookShelf = this.props.onChangeBookShelf
 
     return(
         <ol className="books-grid">
-        {bookDetails.map((book, index) => (
+        {books.map((book, index) => (
           <li key={index}>
             <div className="book">
               <div className="book-top">
@@ -16,7 +23,7 @@ class BookDetails extends Component {
                                                    }}>
                 </div>
                 <div className="book-shelf-changer">
-                  <select>
+                  <select onClick={(e) => onChangeBookShelf(book,e.target.value)}>
                     <option value="none" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
