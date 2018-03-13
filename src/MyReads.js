@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI'
 import CurrentlyReading from './CurrentlyReading';
 import WantToRead from './WantToRead';
 import Read from './Read';
+import SearchBooks from './SearchBooks';
 
 /**
  * main component
@@ -16,10 +18,12 @@ class MyReads extends Component {
     read: []
   }
   
+
   componentDidMount() {
     this.getAllBooks();
   }
   
+
   getAllBooks() {
     BooksAPI.getAll().then((books) => {
       this.setState({
@@ -30,6 +34,8 @@ class MyReads extends Component {
       });
     });
   }
+
+
   changeBookShelf = (book, shelf) => {
     let res;
     if (shelf !== "none")
@@ -38,14 +44,13 @@ class MyReads extends Component {
           res = response;  
           //console.log(response);
           this.getAllBooks(); 
-        });
-        
+        });        
     }
-
   }
 
   render() {
     return (
+      <div>
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads</h1>
@@ -57,6 +62,10 @@ class MyReads extends Component {
             <Read books={this.state.read} onChangeBookShelf={this.changeBookShelf} />     
           </div>
         </div>
+        <div className="open-search">
+          <Link to="/search">Add a book</Link>
+        </div>
+      </div>
       </div>    
     );
   }
