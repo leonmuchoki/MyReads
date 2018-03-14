@@ -35,6 +35,7 @@ class BookDetails extends Component {
                   </select>
                 </div>
                 </div>
+                
                 {book.title !== null && (
                   <div className="book-title">{book.title}</div>
                 )}

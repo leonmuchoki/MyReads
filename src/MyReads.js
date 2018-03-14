@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI'
+import { Link } from 'react-router-dom';
 import CurrentlyReading from './CurrentlyReading';
 import WantToRead from './WantToRead';
 import Read from './Read';
-import SearchBooks from './SearchBooks';
 
-/**
- * main component
- */
 
 class MyReads extends Component {
   static propTypes = {
