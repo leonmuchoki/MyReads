@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Route, Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI'
 import CurrentlyReading from './CurrentlyReading';
@@ -11,55 +12,25 @@ import SearchBooks from './SearchBooks';
  */
 
 class MyReads extends Component {
-  state = {
-    all_books: [],
-    curr_reading: [],
-    want_to_read: [],
-    read: []
-  }
-  
-
-  componentDidMount() {
-    this.getAllBooks();
-  }
-  
-
-  getAllBooks() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({
-        all_books: books,
-        curr_reading: books.filter((c) => (c.shelf === "currentlyReading")),
-        want_to_read: books.filter((c) => ( c.shelf === "wantToRead")),
-        read: books.filter((c) => ( c.shelf === "read"))
-      });
-    });
-  }
-
-
-  changeBookShelf = (book, shelf) => {
-    let res;
-    if (shelf !== "none")
-    {
-        BooksAPI.update(book, shelf).then((response) => {
-          res = response;  
-          //console.log(response);
-          this.getAllBooks(); 
-        });        
-    }
+  static propTypes = {
+    books_curr_reading: PropTypes.array.isRequired,
+    books_want_to_read: PropTypes.array.isRequired,
+    books_read: PropTypes.array.isRequired,
+    onChangeBookShelf: PropTypes.func.isRequired
   }
 
   render() {
     return (
-      <div>
+      <div> 
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
           <div>
-            <CurrentlyReading books={this.state.curr_reading} onChangeBookShelf={this.changeBookShelf} />
-            <WantToRead books={this.state.want_to_read} onChangeBookShelf={this.changeBookShelf} />   
-            <Read books={this.state.read} onChangeBookShelf={this.changeBookShelf} />     
+            <CurrentlyReading books={this.props.books_curr_reading} onChangeBookShelf={this.props.onChangeBookShelf} />
+            <WantToRead books={this.props.books_want_to_read} onChangeBookShelf={this.props.onChangeBookShelf} />   
+            <Read books={this.props.books_read} onChangeBookShelf={this.props.onChangeBookShelf} />     
           </div>
         </div>
         <div className="open-search">
