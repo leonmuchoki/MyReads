@@ -26,23 +26,13 @@ class BookDetails extends Component {
                 )}
 
                 <div className="book-shelf-changer">
-                 {book.shelf !== "None"
-                   ? <select onChange={(e) => onChangeBookShelf(book,e.target.value)} value={book.shelf}>
-                      <option value="" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                     </select>
-                   :
-                    <select onChange={(e) => onChangeBookShelf(book,e.target.value)} value="none">
-                      <option value="" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
+                  <select onChange={(e) => onChangeBookShelf(book,e.target.value)} value={book.shelf !== "None" ? book.shelf : 'none'}>
+                    <option value="" disabled>Move to...</option>
+                    <option value="currentlyReading">Currently Reading</option>
+                    <option value="wantToRead">Want to Read</option>
+                    <option value="read">Read</option>
+                    <option value="none">None</option>
                   </select>
-                 }
                 </div>
                 </div>
                 
