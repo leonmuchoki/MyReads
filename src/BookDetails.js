@@ -10,14 +10,14 @@ class BookDetails extends Component {
   render() {
     const books = this.props.books
     const onChangeBookShelf = this.props.onChangeBookShelf
-    console.log('----bookdetails...' + JSON.stringify(books))
+    //console.log('----bookdetails...' + JSON.stringify(books))
     return(
         <ol className="books-grid">
         {books !== undefined && books.map((book, index) => (
           <li key={index}>
             <div className="book">
               <div className="book-top">
-                {book.imageLinks.thumbnail !== null && (
+                {book.imageLinks.thumbnail !== undefined && (
                   <div className="book-cover" style={{ width: 128, 
                                                       height: 193, 
                                                       backgroundImage: `url(${book.imageLinks.thumbnail})` 
@@ -26,22 +26,30 @@ class BookDetails extends Component {
                 )}
 
                 <div className="book-shelf-changer">
-                  <select onChange={(e) => onChangeBookShelf(book,e.target.value)} value={book.shelf}>
-                    <option value="none" disabled>Move to...</option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
+                 {book.shelf 
+                   ? <select onChange={(e) => onChangeBookShelf(book,e.target.value)} value={book.shelf}>
+                      <option value="" disabled>Move to...</option>
+                      <option value="currentlyReading">Currently Reading</option>
+                      <option value="wantToRead">Want to Read</option>
+                      <option value="read">Read</option>
+                      <option value="none">None</option>
+                     </select>
+                   :
+                    <select onChange={(e) => onChangeBookShelf(book,e.target.value)} value="none">
+                      <option value="" disabled>Move to...</option>
+                      <option value="currentlyReading">Currently Reading</option>
+                      <option value="wantToRead">Want to Read</option>
+                      <option value="read">Read</option>
+                      <option value="none">None</option>
                   </select>
+                 }
                 </div>
                 </div>
                 
-                {book.title !== null && (
-                  <div className="book-title">{book.title}</div>
-                )}
-                {book.authors !== null && (
-                  <div className="book-authors">{book.authors}</div>
-                )}               
+                {book.title ?  <div className="book-title">{book.title}</div> : '' }
+                {
+                  book.authors ? <div className="book-authors">{book.authors.join(',')}</div> : ''
+                }               
             </div>
           </li>
      ) )

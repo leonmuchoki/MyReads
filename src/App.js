@@ -39,7 +39,7 @@ class BooksApp extends React.Component {
 
 
   changeBookShelf = (book, value) => {
-    let res;
+    console.log(JSON.stringify('---book--value-' + JSON.stringify(value)));
     if (value !== undefined && book !== undefined)
     {
         book.shelf = value;
