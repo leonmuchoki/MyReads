@@ -24,6 +24,8 @@ npm start
 
 * React
 
+## Allowed Search Terms
+see the [SEARCH_TERMS.md](SEARCH_TERMS.md) file for details
 
 ## Authors
 
