@@ -18,6 +18,12 @@ class BooksApp extends React.Component {
     this.getAllBooks();
   }
   
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.all_books !== this.props.all_books) {
+      //pre-poluate fields
+      //this.processDeckInfo()
+    }
+  }
 
   getAllBooks() {
     BooksAPI.getAll().then((books) => {
@@ -27,18 +33,30 @@ class BooksApp extends React.Component {
         want_to_read: books.filter((c) => ( c.shelf === "wantToRead")),
         read: books.filter((c) => ( c.shelf === "read"))
       });
+      //console.log('...-changed state getAllBooks-...')
     });
   }
 
 
-  changeBookShelf = (book, shelf) => {
+  changeBookShelf = (book, value) => {
     let res;
-    if (shelf !== "none")
+    if (value !== undefined && book !== undefined)
     {
-        BooksAPI.update(book, shelf).then((response) => {
-          res = response;  
-          //console.log(response);
+        book.shelf = value;
+        //console.log(JSON.stringify('---book---' + JSON.stringify(book)));
+        BooksAPI.update(book, value).then((response) => {
           this.getAllBooks(); 
+         /*  this.setState({
+            all_books: response,
+            curr_reading: response.currentlyReading,
+            want_to_read: response.wantToRead,
+            read: response.read
+          });  */
+          //console.log("state currentlyReading<<<<" + response.currentlyReading);
+          //console.log("state response wantToRead<<<<" + response.wantToRead);
+          //console.log("state read<<<<" + response.currentlyReading);
+          //console.log(JSON.stringify(response));
+          
         });        
     }
   }

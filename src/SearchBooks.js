@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import escapeRegExp from 'escape-string-regexp';
 import BookDetails from './BookDetails';
+import * as BooksAPI from './BooksAPI';
 
 class SearchBooks extends Component {
   static propTypes = {
@@ -11,7 +12,8 @@ class SearchBooks extends Component {
   }
 
   state = {
-    query: []
+    query: [],
+    books_searched: []
   }
 
   updateQuery =  (query) => {
@@ -22,14 +24,26 @@ class SearchBooks extends Component {
     });
   }
 
+  searchQuery = (query) => {
+    console.log('calling search api...' + query);
+    BooksAPI.search(query).then((res)=> {
+      
+      console.log('search mastuff...' + JSON.stringify(res));
+      this.setState({
+        books_searched: res
+      });
+    });
+  }
+
   render() {
     const all_books = this.props.all_books;
     const query = this.state.query.join();
-    let showingBooks;
+    let showingBooks = this.state.books_searched;
+    console.log('query ... ' + query);
 
-    if (query && all_books.length > 0) {
+    if (query !== undefined && query.length > 0) {
       const match = new RegExp(escapeRegExp(query), 'i')
-      showingBooks = all_books.filter((book) => match.test(book.title) || match.test(book.authors[0]));
+      this.searchQuery(query);//all_books.filter((book) => match.test(book.title) || match.test(book.authors[0]));
     }
     else {
       showingBooks = [];
@@ -46,7 +60,7 @@ class SearchBooks extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          {showingBooks.length > 0 && (
+          {showingBooks !== undefined && (
             <BookDetails books={showingBooks} onChangeBookShelf={this.props.onChangeBookShelf}/>
           )}
         </div>
