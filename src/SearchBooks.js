@@ -12,25 +12,20 @@ class SearchBooks extends Component {
   }
 
   state = {
-    query: [],
+    query: '',
     books_searched: [],
     isSearching: false
   }
 
   updateQuery = (query) => {
-    let qy = this.state.query;
-    qy.push(query.slice(-1));
     this.setState({
-      query: qy
+      query: query.trim()
     });
-    let qs = this.state.isSearching
-    //if (qs === false) {
-      this.searchQuery(qy.join(''))
-    //}
+    this.searchQuery(query.trim())
   }
 
   searchQuery = (query) => {
-    console.log('calling search api...' + query);
+    //console.log('calling search api...' + query);
     this.setState({isSearching: true})
     BooksAPI.search(query).then((res)=> {
       //console.log('search mastuff...' + JSON.stringify(res));
@@ -41,12 +36,43 @@ class SearchBooks extends Component {
     });
   }
 
+  addShelfs = () => {
+    let bookSearches = this.state.books_searched;
+    let allBooks = this.props.all_books;
+    let newBks
+    if (bookSearches !== undefined) {
+      newBks = bookSearches.map((bk) => {
+        bk["shelf"] = "None"
+        return bk
+      })
+      .map((bk2)=>{
+        let bkTitle = bk2.title 
+        let bkSubTitle = bk2.subtitle 
+        let checkExists = allBooks.filter((fbk)=>{
+          if (fbk.title === bkTitle && fbk.subtitle === bkSubTitle) {
+            bk2["shelf"] = fbk.shelf
+            return bk2
+          } else {
+            return bk2
+          } 
+        })
+       // console.log('---checkExists---bk2---' + JSON.stringify(bk2))
+       return bk2
+      })
+    } else {
+      newBks = []
+    }
+    //console.log(JSON.stringify(newBks))
+    return newBks
+  }
+
   render() {
     const all_books = this.props.all_books;
-    let query = this.state.query.join('');
+    let query = this.state.query.trim();
     let showingBooks = this.state.books_searched;
-    console.log('query ... ' + query);
-
+    const nomaSana = this.addShelfs()
+    //console.log('... showingBooks ... ' + JSON.stringify(showingBooks));
+    //console.log('... all_books ... ' + JSON.stringify(all_books));
    /*  if (query !== undefined && query.length > 0) {
       const match = new RegExp(escapeRegExp(query), 'i')
       this.searchQuery(query);//all_books.filter((book) => match.test(book.title) || match.test(book.authors[0]));
@@ -67,7 +93,7 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           {showingBooks !== undefined && (
-            <BookDetails books={showingBooks} onChangeBookShelf={this.props.onChangeBookShelf}/>
+            <BookDetails books={nomaSana} onChangeBookShelf={this.props.onChangeBookShelf}/>
           )}
         </div>
       </div>

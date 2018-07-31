@@ -26,7 +26,7 @@ class BookDetails extends Component {
                 )}
 
                 <div className="book-shelf-changer">
-                 {book.shelf 
+                 {book.shelf !== "None"
                    ? <select onChange={(e) => onChangeBookShelf(book,e.target.value)} value={book.shelf}>
                       <option value="" disabled>Move to...</option>
                       <option value="currentlyReading">Currently Reading</option>
