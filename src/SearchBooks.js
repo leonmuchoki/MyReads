@@ -13,41 +13,47 @@ class SearchBooks extends Component {
 
   state = {
     query: [],
-    books_searched: []
+    books_searched: [],
+    isSearching: false
   }
 
-  updateQuery =  (query) => {
-    let qy = [];
-    qy.push(query);
+  updateQuery = (query) => {
+    let qy = this.state.query;
+    qy.push(query.slice(-1));
     this.setState({
       query: qy
     });
+    let qs = this.state.isSearching
+    //if (qs === false) {
+      this.searchQuery(qy.join(''))
+    //}
   }
 
   searchQuery = (query) => {
     console.log('calling search api...' + query);
+    this.setState({isSearching: true})
     BooksAPI.search(query).then((res)=> {
-      
-      console.log('search mastuff...' + JSON.stringify(res));
+      //console.log('search mastuff...' + JSON.stringify(res));
       this.setState({
-        books_searched: res
+        books_searched: res,
+        isSearching: false
       });
     });
   }
 
   render() {
     const all_books = this.props.all_books;
-    const query = this.state.query.join();
+    let query = this.state.query.join('');
     let showingBooks = this.state.books_searched;
     console.log('query ... ' + query);
 
-    if (query !== undefined && query.length > 0) {
+   /*  if (query !== undefined && query.length > 0) {
       const match = new RegExp(escapeRegExp(query), 'i')
       this.searchQuery(query);//all_books.filter((book) => match.test(book.title) || match.test(book.authors[0]));
     }
     else {
       showingBooks = [];
-    }
+    } */
 
     return(
       <div className="search-books">
@@ -56,7 +62,7 @@ class SearchBooks extends Component {
           {/*<a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>*/}
           <div className="search-books-input-wrapper">
             <input type="text" placeholder="Search by title or author" 
-                   value={this.state.query.join()} onChange={(event) => this.updateQuery(event.target.value)} />
+                   value={query} onChange={(event) => this.updateQuery(event.target.value)} />
           </div>
         </div>
         <div className="search-books-results">

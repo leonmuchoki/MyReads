@@ -10,14 +10,14 @@ class BookDetails extends Component {
   render() {
     const books = this.props.books
     const onChangeBookShelf = this.props.onChangeBookShelf
-
+    console.log('----bookdetails...' + JSON.stringify(books))
     return(
         <ol className="books-grid">
-        {books.map((book, index) => (
+        {books !== undefined && books.map((book, index) => (
           <li key={index}>
             <div className="book">
               <div className="book-top">
-                {book.imageLinks.thumbnail !== null > 0 && (
+                {book.imageLinks.thumbnail !== null && (
                   <div className="book-cover" style={{ width: 128, 
                                                       height: 193, 
                                                       backgroundImage: `url(${book.imageLinks.thumbnail})` 

@@ -43,7 +43,7 @@ class BooksApp extends React.Component {
     if (value !== undefined && book !== undefined)
     {
         book.shelf = value;
-        //console.log(JSON.stringify('---book---' + JSON.stringify(book)));
+        console.log(JSON.stringify('---book---' + JSON.stringify(book)));
         BooksAPI.update(book, value).then((response) => {
           this.getAllBooks(); 
          /*  this.setState({
