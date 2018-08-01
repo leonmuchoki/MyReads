@@ -40,7 +40,7 @@ class SearchBooks extends Component {
     let bookSearches = this.state.books_searched;
     let allBooks = this.props.all_books;
     let newBks
-    if (bookSearches !== undefined) {
+    if (bookSearches !== undefined && bookSearches.length > 0) {
       newBks = bookSearches.map((bk) => {
         bk["shelf"] = "None"
         return bk
@@ -70,7 +70,10 @@ class SearchBooks extends Component {
     const all_books = this.props.all_books;
     let query = this.state.query.trim();
     let showingBooks = this.state.books_searched;
-    const nomaSana = this.addShelfs()
+    let nomaSana = this.addShelfs()
+    if (nomaSana === undefined) {
+      nomaSana = []
+    }
     //console.log('... showingBooks ... ' + JSON.stringify(showingBooks));
     //console.log('... all_books ... ' + JSON.stringify(all_books));
    /*  if (query !== undefined && query.length > 0) {
