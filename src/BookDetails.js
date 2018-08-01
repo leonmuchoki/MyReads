@@ -17,13 +17,14 @@ class BookDetails extends Component {
           <li key={index}>
             <div className="book">
               <div className="book-top">
-                {book.imageLinks.thumbnail !== undefined && (
-                  <div className="book-cover" style={{ width: 128, 
-                                                      height: 193, 
-                                                      backgroundImage: `url(${book.imageLinks.thumbnail})` 
-                  }}>
-                  </div>
-                )}
+                {book.imageLinks 
+                  ? <div className="book-cover" style={{ width: 128, 
+                    height: 193, 
+                    backgroundImage: `url(${book.imageLinks.thumbnail ? book.imageLinks.thumbnail : ''})` 
+                    }}>
+                    </div> 
+                  : ''
+                }
 
                 <div className="book-shelf-changer">
                   <select onChange={(e) => onChangeBookShelf(book,e.target.value)} value={book.shelf !== "None" ? book.shelf : 'none'}>

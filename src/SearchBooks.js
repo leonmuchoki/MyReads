@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import escapeRegExp from 'escape-string-regexp';
+//import escapeRegExp from 'escape-string-regexp';
 import BookDetails from './BookDetails';
 import * as BooksAPI from './BooksAPI';
 
@@ -19,9 +19,13 @@ class SearchBooks extends Component {
 
   updateQuery = (query) => {
     this.setState({
-      query: query.trim()
+      query: query
     });
-    this.searchQuery(query.trim())
+    let isSearching = this.state.isSearching
+    //if (isSearching === false) {
+      this.searchQuery(query.trim())
+    //}
+    
   }
 
   searchQuery = (query) => {
@@ -33,6 +37,8 @@ class SearchBooks extends Component {
         books_searched: res,
         isSearching: false
       });
+    }, (error) => {
+      console.log('---error---' + error)
     });
   }
 
@@ -68,7 +74,7 @@ class SearchBooks extends Component {
 
   render() {
     const all_books = this.props.all_books;
-    let query = this.state.query.trim();
+    let query = this.state.query;
     let showingBooks = this.state.books_searched;
     let nomaSana = this.addShelfs()
     if (nomaSana === undefined) {
